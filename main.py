@@ -19,6 +19,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', type=open, action=LoadFromFile, help="specify a file filled with more arguments")
     parser.add_argument('--text', default=None, help="text prompt")
+    parser.add_argument('--text_file', default=None, help="file prompt")
     parser.add_argument('--negative', default='', type=str, help="negative text prompt")
     parser.add_argument('-O', action='store_true', help="equals --fp16 --cuda_ray")
     parser.add_argument('-O2', action='store_true', help="equals --backbone vanilla")
@@ -183,6 +184,10 @@ if __name__ == '__main__':
             opt.guidance.remove('SD')
             opt.guidance.append('IF')
         opt.latent_iter_ratio = 0 # must not do as_latent
+
+    if opt.text_file:
+        with open(opt.text_file) as f:
+            opt.text = f.read()
 
     opt.images, opt.ref_radii, opt.ref_polars, opt.ref_azimuths, opt.zero123_ws = [], [], [], [], []
     opt.default_zero123_w = 1
