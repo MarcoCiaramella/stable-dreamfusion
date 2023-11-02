@@ -55,5 +55,3 @@ debugpy-run
 
 # for deepfloyd if
 sentencepiece
-
-git+https://github.com/ashawkey/cubvh
