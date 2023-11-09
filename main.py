@@ -398,7 +398,7 @@ if __name__ == '__main__':
             from guidance.clip_utils import CLIP
             guidance['clip'] = CLIP(device)
 
-        trainer = Trainer(' '.join(sys.argv), 'df', opt, model, guidance, device=device, workspace=opt.workspace, optimizer=optimizer, ema_decay=0.95, fp16=opt.fp16, lr_scheduler=scheduler, use_checkpoint=opt.ckpt, scheduler_update_every_step=True)
+        trainer = Trainer(' '.join(sys.argv), 'df', opt, model, guidance, device=device, world_size=torch.cuda.device_count(), workspace=opt.workspace, optimizer=optimizer, ema_decay=0.95, fp16=opt.fp16, lr_scheduler=scheduler, use_checkpoint=opt.ckpt, scheduler_update_every_step=True)
 
         trainer.default_view_data = train_loader._data.get_default_view_data()
 
