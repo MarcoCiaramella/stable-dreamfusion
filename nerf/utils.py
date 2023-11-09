@@ -246,8 +246,9 @@ class Trainer(object):
 
         model.to(self.device)
         if self.world_size > 1:
+            torch.distributed.init_process_group(backend='nccl', world_size=self.world_size, init_method='...')
             model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
-            model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank])
+            model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=0)
         self.model = model
 
         # guide model
