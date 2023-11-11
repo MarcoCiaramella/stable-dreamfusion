@@ -904,7 +904,7 @@ class Trainer(object):
                 data = next(loader)
 
             # update grid every 16 steps
-            if self.model.cuda_ray and self.global_step % self.opt.update_extra_interval == 0:
+            if self.model.module.cuda_ray and self.global_step % self.opt.update_extra_interval == 0:
                 with torch.cuda.amp.autocast(enabled=self.fp16):
                     self.model.update_extra_state()
 
@@ -1031,7 +1031,7 @@ class Trainer(object):
         for data in loader:
 
             # update grid every 16 steps
-            if (self.model.cuda_ray or self.model.taichi_ray) and self.global_step % self.opt.update_extra_interval == 0:
+            if (self.model.module.cuda_ray or self.model.taichi_ray) and self.global_step % self.opt.update_extra_interval == 0:
                 with torch.cuda.amp.autocast(enabled=self.fp16):
                     self.model.update_extra_state()
 
@@ -1213,7 +1213,7 @@ class Trainer(object):
             'stats': self.stats,
         }
 
-        if self.model.cuda_ray:
+        if self.model.module.cuda_ray:
             state['mean_density'] = self.model.mean_density
 
         if self.opt.dmtet:
@@ -1293,7 +1293,7 @@ class Trainer(object):
             except:
                 self.log("[WARN] failed to loaded EMA.")
 
-        if self.model.cuda_ray:
+        if self.model.module.cuda_ray:
             if 'mean_density' in checkpoint_dict:
                 self.model.mean_density = checkpoint_dict['mean_density']
 
