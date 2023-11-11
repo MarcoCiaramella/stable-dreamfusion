@@ -244,10 +244,9 @@ class Trainer(object):
         self.device = device if device is not None else torch.device(f'cuda:{local_rank}' if torch.cuda.is_available() else 'cpu')
         self.console = Console()
 
-        model.cuda()
-        # DistributedDataParallel will divide and allocate batch_size to all
-        # available GPUs if device_ids are not set
-        model = torch.nn.parallel.DistributedDataParallel(model)
+        if torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            model = nn.DataParallel(model)
         self.model = model
 
         # guide model
