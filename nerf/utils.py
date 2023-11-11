@@ -906,7 +906,7 @@ class Trainer(object):
             # update grid every 16 steps
             if self.model.module.cuda_ray and self.global_step % self.opt.update_extra_interval == 0:
                 with torch.cuda.amp.autocast(enabled=self.fp16):
-                    self.model.update_extra_state()
+                    self.model.module.update_extra_state()
 
             self.global_step += 1
 
@@ -1033,7 +1033,7 @@ class Trainer(object):
             # update grid every 16 steps
             if (self.model.module.cuda_ray or self.model.taichi_ray) and self.global_step % self.opt.update_extra_interval == 0:
                 with torch.cuda.amp.autocast(enabled=self.fp16):
-                    self.model.update_extra_state()
+                    self.model.module.update_extra_state()
 
             self.local_step += 1
             self.global_step += 1
