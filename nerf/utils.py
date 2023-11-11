@@ -1214,7 +1214,7 @@ class Trainer(object):
         }
 
         if self.model.module.cuda_ray:
-            state['mean_density'] = self.model.mean_density
+            state['mean_density'] = self.model.module.mean_density
 
         if self.opt.dmtet:
             state['tet_scale'] = self.model.tet_scale.cpu().numpy()
