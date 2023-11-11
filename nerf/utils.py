@@ -1013,7 +1013,12 @@ class Trainer(object):
                 metric.clear()
 
         self.model.train()
-        
+
+        # distributedSampler: must call set_epoch() to shuffle indices across multiple epochs
+        # ref: https://pytorch.org/docs/stable/data.html
+        if self.world_size > 1:
+            loader.sampler.set_epoch(self.epoch)
+
         if self.local_rank == 0:
             pbar = tqdm.tqdm(total=len(loader) * loader.batch_size, bar_format='{desc}: {percentage:3.0f}% {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]')
 
