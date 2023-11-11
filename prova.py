@@ -37,9 +37,7 @@ class Model(nn.Module):
 
     def forward(self, input):
         output = self.fc(input)
-        print("\tIn Model: input size", input.size(),
-              "output size", output.size())
-
+        print("\tIn Model: input size", input.size(), "output size", output.size())
         return output
     
 model = Model(input_size, output_size)
@@ -53,5 +51,4 @@ model.to(device)
 for data in rand_loader:
     input = data.to(device)
     output = model(input)
-    print("Outside: input size", input.size(),
-          "output_size", output.size())
+    print("Outside: input size", input.size(), "output size", output.size())
